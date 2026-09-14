@@ -1,7 +1,7 @@
 {
   "name": "A·N STORE - فروشگاه یوسی پابجی",
   "short_name": "A·N STORE",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#070a14",
   "theme_color": "#facc15",

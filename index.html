@@ -1230,17 +1230,33 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').then(r=>console.log('PWA ready')).catch(e=>console.log('SW fail',e));
   });
 }
-// PWA Install prompt
-let deferredPrompt;
+// PWA Install prompt (persistent until installed)
+let deferredPrompt=null;
+function showInstallBtn(){
+  if(document.getElementById('pwaInstallBtn')) return;
+  const btn=document.createElement('button');
+  btn.id='pwaInstallBtn';
+  btn.innerHTML='<i class="fa-solid fa-download"></i> نصب اپلیکیشن A·N';
+  btn.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#facc15,#f59e0b);color:#0f172a;padding:12px 22px;border-radius:999px;font-weight:900;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.4);border:none;cursor:pointer;display:flex;gap:8px;align-items:center;font-family:inherit';
+  btn.onclick=async ()=>{
+    if(!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const c=await deferredPrompt.userChoice;
+    if(c.outcome==='accepted') btn.remove();
+    deferredPrompt=null;
+  };
+  document.body.appendChild(btn);
+}
 window.addEventListener('beforeinstallprompt', e=>{
   e.preventDefault();
   deferredPrompt=e;
-  const btn=document.createElement('button');
-  btn.textContent='📲 نصب اپلیکیشن A·N';
-  btn.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#facc15,#f59e0b);color:#0f172a;padding:12px 20px;border-radius:999px;font-weight:900;z-index:99;box-shadow:0 8px 20px rgba(0,0,0,.3);border:none;cursor:pointer';
-  btn.onclick=()=>{ deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>btn.remove()); };
-  document.body.appendChild(btn);
-  setTimeout(()=>btn.remove(), 10000);
+  showInstallBtn();
+});
+window.addEventListener('appinstalled', ()=>{
+  const b=document.getElementById('pwaInstallBtn');
+  if(b) b.remove();
+  deferredPrompt=null;
+  toast('✅ اپلیکیشن نصب شد — از صفحه اصلی گوشی بازش کن');
 });
 // Reveal on scroll
 (function(){

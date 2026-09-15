@@ -1,5 +1,5 @@
-﻿const CACHE = "an-store-v3";
-const ASSETS = ["./", "./index.html", "./about.html", "./admin.html", "./manifest.json", "./assets/icon-192.png", "./assets/icon-512.png", "./assets/uc-oneone.png", "./assets/hero-pubg.jpg"];
+﻿const CACHE = "an-store-v4";
+const ASSETS = ["./", "./index.html", "./about.html", "./admin.html", "./manifest.json", "./assets/icon-192.png", "./assets/icon-512.png", "./assets/icon-maskable-512.png", "./assets/uc-oneone.png", "./assets/hero-pubg.jpg"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
   self.skipWaiting();

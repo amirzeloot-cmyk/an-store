@@ -249,6 +249,45 @@ footer{margin-top:30px;border-top:1px solid transparent;border-image:linear-grad
 .footer-grid a,.footer-grid p{font-size:12px;color:var(--muted);line-height:2}
 .trust{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 .trust span{background:var(--card);border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700}
+/* ===== AN ULTRA UPGRADE ===== */
+#goldDust{position:absolute;inset:0;z-index:1;pointer-events:none}
+.scroll-cue{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.75);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.scroll-cue i{animation:cueDrop 1.8s ease-in-out infinite}
+@keyframes cueDrop{0%,100%{transform:translateY(0);opacity:.9}50%{transform:translateY(8px);opacity:.4}}
+/* live price ticker (honest: built from real products data) */
+.ticker{overflow:hidden;border-block:1px solid var(--border);background:rgba(10,15,31,.6);backdrop-filter:blur(8px);margin:6px auto 0;width:min(1280px,92%);border-radius:14px}
+.ticker-track{display:flex;direction:ltr;width:max-content;animation:tickMove 36s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tickMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tick-item{direction:rtl;display:flex;align-items:center;gap:8px;padding:10px 18px;font-size:12px;font-weight:700;white-space:nowrap;border-left:1px solid var(--border)}
+.tick-item b{color:var(--accent2)}
+.tick-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;flex-shrink:0}
+/* card entrance stagger + tilt */
+.card{animation:cardIn .55s cubic-bezier(.22,.9,.32,1) backwards;animation-delay:calc(var(--i,0)*55ms)}
+@keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+/* section kickers */
+.kicker{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:1px;color:var(--accent2);background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.3);padding:4px 12px;border-radius:999px;margin-bottom:8px}
+/* header shrink + nav underline */
+header{transition:box-shadow .3s,background .3s}
+header.shrink{box-shadow:0 10px 30px rgba(0,0,0,.45)}
+header.shrink .header-inner{padding:8px 0}
+.header-inner{transition:padding .3s}
+nav a{position:relative}
+nav a::after{content:'';position:absolute;bottom:2px;right:14px;left:14px;height:2px;border-radius:999px;background:linear-gradient(90deg,#facc15,transparent);transform:scaleX(0);transform-origin:right;transition:transform .25s}
+nav a:hover::after,nav a.active::after{transform:scaleX(1)}
+/* back to top */
+#toTop{position:fixed;bottom:20px;right:20px;z-index:90;width:46px;height:46px;border-radius:50%;border:1px solid rgba(250,204,21,.4);background:rgba(10,15,31,.8);backdrop-filter:blur(10px);color:var(--accent2);font-size:16px;cursor:pointer;display:grid;place-items:center;opacity:0;pointer-events:none;transform:translateY(10px);transition:.3s;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+#toTop.show{opacity:1;pointer-events:auto;transform:none}
+#toTop:hover{background:var(--accent2);color:#0f172a}
+.support-btn{bottom:76px !important}
+.chat-panel{bottom:140px !important}
+/* order summary glow when active */
+.order-item:not([style*="opacity:.65"]){box-shadow:0 0 0 1px rgba(250,204,21,.35),0 12px 34px -12px rgba(250,204,21,.4)}
+.btn-submit:not([disabled]){background:linear-gradient(135deg,#fde68a,#facc15 45%,#d97706) !important;color:#20140a !important;box-shadow:0 10px 26px rgba(250,204,21,.4) !important}
+/* battlepass bar shimmer */
+#bpBar{position:relative;overflow:hidden}
+#bpBar::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);animation:shine 2.8s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.ticker-track,.card,#bpBar::after,.scroll-cue i{animation:none !important}.card{animation-delay:0ms}}
 /* RESPONSIVE */
 @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.hero-grid{grid-template-columns:1fr}.hero-visual{height:260px;max-width:360px}}
 
@@ -295,6 +334,7 @@ footer{margin-top:30px;border-top:1px solid transparent;border-image:linear-grad
     <source src="https://videos.pexels.com/video-files/18069234/18069234-hd_1080_1080_24fps.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
+  <canvas id="goldDust"></canvas>
   <img class="hero-uc-float hero-uc-1" src="assets/uc-oneone.png" alt="" loading="lazy">
   <img class="hero-uc-float hero-uc-2" src="assets/uc-oneone.png" alt="" loading="lazy">
   <div class="container hero-content">
@@ -310,6 +350,7 @@ footer{margin-top:30px;border-top:1px solid transparent;border-image:linear-grad
       <span style="background:rgba(0,0,0,.45);padding:6px 12px;border-radius:999px;font-size:11px;border:1px solid rgba(255,255,255,.15)"><i class="fa-solid fa-shield-halved" style="color:#22c55e"></i> پرداخت امن</span>
     </div>
   </div>
+  <div class="scroll-cue"><span>مشاهده قیمت‌ها</span><i class="fa-solid fa-chevron-down"></i></div>
 </section>
 <div class="trust-strip">
   <span><i class="fa-solid fa-bolt" style="color:#facc15"></i> تحویل ۱ تا ۳ دقیقه</span>
@@ -317,6 +358,7 @@ footer{margin-top:30px;border-top:1px solid transparent;border-image:linear-grad
   <span><i class="fa-solid fa-id-card" style="color:#60a5fa"></i> واریز فقط با آیدی</span>
   <span><i class="fa-solid fa-rotate-left" style="color:#f59e0b"></i> گارانتی بازگشت وجه</span>
 </div>
+<div class="ticker" aria-label="قیمت لحظه‌ای بسته‌ها"><div class="ticker-track" id="tickerTrack"></div></div>
 
 <section class="section container reveal" id="prices">
   <div class="section-head">
@@ -664,10 +706,11 @@ function renderProducts(filter='all'){
   const grid=document.getElementById('productGrid');
   grid.innerHTML='';
   const list = filter==='all' ? products : products.filter(p=>p.cat.includes(filter));
-  list.forEach(p=>{
+  list.forEach((p,idx)=>{
     const old = Math.round(p.price*1.12);
     const card=document.createElement('div');
     card.className='card';
+    card.style.setProperty('--i',idx);
     card.innerHTML=`
       ${p.badge?`<span class="card-badge">${p.badge}</span>`:''}
       <div class="card-top">
@@ -682,6 +725,7 @@ function renderProducts(filter='all'){
       </div>`;
     grid.appendChild(card);
   });
+  buildTicker();
 }
 
 function addToCart(id){
@@ -1264,6 +1308,82 @@ window.addEventListener('appinstalled', ()=>{
   if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('revealed'));return;}
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}}),{threshold:.08});
   els.forEach(e=>io.observe(e));
+})();
+// ===== AN ULTRA FX (honest data only) =====
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Gold dust particles in hero
+(function(){
+  if(reduceMotion) return;
+  const cv=document.getElementById('goldDust');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  let W,H,parts=[];
+  function size(){const r=cv.parentElement.getBoundingClientRect();W=cv.width=r.width;H=cv.height=r.height;}
+  size(); addEventListener('resize',size);
+  for(let i=0;i<50;i++) parts.push({x:Math.random(),y:Math.random(),r:.6+Math.random()*2.2,s:.0004+Math.random()*.0012,o:.25+Math.random()*.55,ph:Math.random()*6.28});
+  (function tick(t){
+    ctx.clearRect(0,0,W,H);
+    for(const p of parts){
+      p.y-=p.s; if(p.y<-.02){p.y=1.02;p.x=Math.random();}
+      const tw=p.o*(.6+.4*Math.sin(t/700+p.ph));
+      ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,6.28);
+      ctx.fillStyle=`rgba(250,204,21,${tw.toFixed(3)})`;ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  })(0);
+})();
+// Live ticker built from REAL products data
+function buildTicker(){
+  const track=document.getElementById('tickerTrack');
+  if(!track||typeof products==='undefined') return;
+  const items=products.map(p=>`<span class="tick-item"><span class="tick-dot"></span>${p.total.toLocaleString('fa-IR')} یوسی <b>${priceFmt(p.price)}</b></span>`).join('');
+  track.innerHTML=items+items;
+}
+// 3D tilt on product cards (delegated, desktop only)
+(function(){
+  if(reduceMotion||matchMedia('(hover: none)').matches) return;
+  const grid=document.getElementById('productGrid');
+  if(!grid) return;
+  grid.addEventListener('pointermove',e=>{
+    const card=e.target.closest('.card');
+    if(!card) return;
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    card.style.transition='transform .1s';
+    card.style.transform=`translateY(-8px) rotateX(${(-y*7).toFixed(2)}deg) rotateY(${(x*9).toFixed(2)}deg)`;
+  });
+  grid.addEventListener('pointerout',e=>{
+    const card=e.target.closest('.card');
+    if(!card) return;
+    card.style.transition='transform .35s cubic-bezier(.22,.9,.32,1)';
+    card.style.transform='';
+  });
+})();
+// Header shrink + back-to-top + honest section kickers
+(function(){
+  const header=document.querySelector('header');
+  let toTop=document.getElementById('toTop');
+  if(!toTop){
+    toTop=document.createElement('button');
+    toTop.id='toTop';
+    toTop.setAttribute('aria-label','بازگشت به بالا');
+    toTop.innerHTML='<i class="fa-solid fa-chevron-up"></i>';
+    toTop.onclick=()=>scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'});
+    document.body.appendChild(toTop);
+  }
+  addEventListener('scroll',()=>{
+    const y=scrollY;
+    if(header) header.classList.toggle('shrink',y>40);
+    toTop.classList.toggle('show',y>600);
+  },{passive:true});
+  const kickers={prices:'⚡ قیمت لحظه‌ای بازار',battlepass:'🎮 باشگاه مشتریان',order:'🧾 ثبت سفارش امن', 'contact-admin':'🎧 پشتیبانی واقعی'};
+  for(const id in kickers){
+    const sec=document.getElementById(id);
+    if(!sec||sec.querySelector('.kicker')) continue;
+    const k=document.createElement('div');
+    k.className='kicker'; k.textContent=kickers[id];
+    sec.prepend(k);
+  }
 })();
 // Hero video parallax
 const heroVideo=document.getElementById('heroVideo');
